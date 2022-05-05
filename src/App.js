@@ -7,6 +7,7 @@ function App() {
   const [login, setLogin] = useState(false);
   const [data, setData] = useState({});
    const [picture, setPicture] = useState('');
+   const [accessToken,setaccessToken]=useState('');
 
   const responseFacebook = (response) => {
     console.log(response);
@@ -15,14 +16,18 @@ function App() {
     if (response.accessToken) {
       setLogin(true);
       setPicture(response.picture.data.url)
-      fetch('https://graph.facebook.com/2914463178776289/accounts?access_token='+response.accessToken).then(res=>res.json()).then(result=>console.log(result))  
+      setaccessToken(response.accessToken);
+     
     } else {
       setLogin(false);
     }
   }
   useEffect(()=>{
-    //fetch('https://graph.facebook.com/2914463178776289/accounts?access_token=EAANSR7WnpYkBANozIAxN5Uk4CcZAY5r3f1s4MaozTxpYIgEKUclGd172AZCTnOxVcwH45Ii19oBYmFP47zWXT3m0CqdyIcZCEmvZBedHoZBeYkUDFVwru6UzJzeMB30sCWxxgouYBCCBPYPEa3wVWTUHmQyUut8KqFUFD0rXK25AxuZAloliWslG3FtXgZA6Rh0ufpNtb7mi77MxbOGyBnm').then(res=>res.json()).then(result=>console.log(result))
-  },[])
+    if(accessToken!==''){
+      fetch('https://graph.facebook.com/2914463178776289/accounts?access_token='+accessToken).then(res=>res.json()).then(result=>console.log(result))  
+    }
+  
+  },[accessToken])
   return (
     <div className="container">
       <div style={{ width: '600px' }}>
